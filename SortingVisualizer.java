@@ -1,31 +1,131 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Random;
 
-public class SortingVisualizer {
+public class SortingVisualizer extends JFrame {
+    private static final long serialVersionUID = 1L;
+    private int[] array;
+    private JPanel panel;
+    private JComboBox<String> algorithmSelector;
+    private JButton startButton;
 
-    // Utility function to swap elements in an array
-    private static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+    public SortingVisualizer() {
+        // Set up the JFrame
+        setTitle("Sorting Algorithm Visualizer");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // Generate a random array
+        array = generateRandomArray(50);
+
+        // Set up the panel to display sorting visuals
+        panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                drawArray(g);
+            }
+        };
+
+        panel.setPreferredSize(new Dimension(800, 500));
+        panel.setBackground(Color.white);
+
+        // Sorting algorithms dropdown
+        String[] algorithms = {"Bubble Sort", "Selection Sort", "Insertion Sort", "Merge Sort", "Quick Sort"};
+        algorithmSelector = new JComboBox<>(algorithms);
+
+        // Button to start sorting
+        startButton = new JButton("Start Sorting");
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread(() -> {
+                    String selectedAlgorithm = (String) algorithmSelector.getSelectedItem();
+                    if (selectedAlgorithm != null) {
+                        sortArray(selectedAlgorithm);
+                    }
+                }).start();
+            }
+        });
+
+        // Control panel for selecting sorting algorithm and starting the process
+        JPanel controlPanel = new JPanel();
+        controlPanel.add(new JLabel("Select Algorithm:"));
+        controlPanel.add(algorithmSelector);
+        controlPanel.add(startButton);
+
+        // Add control panel and sorting panel to the JFrame
+        add(controlPanel, BorderLayout.NORTH);
+        add(panel, BorderLayout.CENTER);
+    }
+
+    // Generate a random array
+    private int[] generateRandomArray(int size) {
+        Random rand = new Random();
+        return rand.ints(size, 0, 400).toArray();
+    }
+
+    // Draw the array as vertical bars
+    private void drawArray(Graphics g) {
+        int barWidth = panel.getWidth() / array.length;
+        for (int i = 0; i < array.length; i++) {
+            int height = array[i];
+            g.setColor(Color.blue);
+            g.fillRect(i * barWidth, panel.getHeight() - height, barWidth - 2, height);
+        }
+    }
+
+    // Refresh the panel after each step of sorting
+    private void updateDisplay() {
+        panel.repaint();
+        try {
+            Thread.sleep(50); // Pause to visualize sorting
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Select and apply the chosen sorting algorithm
+    private void sortArray(String algorithm) {
+        switch (algorithm) {
+            case "Bubble Sort":
+                bubbleSort(array);
+                break;
+            case "Selection Sort":
+                selectionSort(array);
+                break;
+            case "Insertion Sort":
+                insertionSort(array);
+                break;
+            case "Merge Sort":
+                mergeSort(array, 0, array.length - 1);
+                break;
+            case "Quick Sort":
+                quickSort(array, 0, array.length - 1);
+                break;
+            default:
+                System.out.println("Unknown sorting algorithm selected.");
+        }
     }
 
     // Bubble Sort
-    public static void bubbleSort(int[] arr) {
-        System.out.println("Bubble Sort:");
+    private void bubbleSort(int[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             for (int j = 0; j < arr.length - i - 1; j++) {
                 if (arr[j] > arr[j + 1]) {
                     swap(arr, j, j + 1);
                 }
-                System.out.println(Arrays.toString(arr));
+                updateDisplay();
             }
         }
     }
 
     // Selection Sort
-    public static void selectionSort(int[] arr) {
-        System.out.println("Selection Sort:");
+    private void selectionSort(int[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             int minIdx = i;
             for (int j = i + 1; j < arr.length; j++) {
@@ -34,45 +134,39 @@ public class SortingVisualizer {
                 }
             }
             swap(arr, i, minIdx);
-            System.out.println(Arrays.toString(arr));
+            updateDisplay();
         }
     }
 
     // Insertion Sort
-    public static void insertionSort(int[] arr) {
-        System.out.println("Insertion Sort:");
+    private void insertionSort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
             int key = arr[i];
             int j = i - 1;
             while (j >= 0 && arr[j] > key) {
                 arr[j + 1] = arr[j];
                 j--;
+                updateDisplay();
             }
             arr[j + 1] = key;
-            System.out.println(Arrays.toString(arr));
+            updateDisplay();
         }
     }
 
     // Merge Sort
-    public static void mergeSort(int[] arr, int left, int right) {
+    private void mergeSort(int[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
-
-            // Sort first and second halves
             mergeSort(arr, left, mid);
             mergeSort(arr, mid + 1, right);
-
-            // Merge sorted halves
             merge(arr, left, mid, right);
-            System.out.println(Arrays.toString(arr));
+            updateDisplay();
         }
     }
 
-    // Merge function for Merge Sort
-    private static void merge(int[] arr, int left, int mid, int right) {
+    private void merge(int[] arr, int left, int mid, int right) {
         int n1 = mid - left + 1;
         int n2 = right - mid;
-
         int[] L = new int[n1];
         int[] R = new int[n2];
 
@@ -89,34 +183,35 @@ public class SortingVisualizer {
                 j++;
             }
             k++;
+            updateDisplay();
         }
 
         while (i < n1) {
             arr[k] = L[i];
             i++;
             k++;
+            updateDisplay();
         }
 
         while (j < n2) {
             arr[k] = R[j];
             j++;
             k++;
+            updateDisplay();
         }
     }
 
     // Quick Sort
-    public static void quickSort(int[] arr, int low, int high) {
+    private void quickSort(int[] arr, int low, int high) {
         if (low < high) {
             int pi = partition(arr, low, high);
-
             quickSort(arr, low, pi - 1);
             quickSort(arr, pi + 1, high);
-            System.out.println(Arrays.toString(arr));
+            updateDisplay();
         }
     }
 
-    // Partition function for Quick Sort
-    private static int partition(int[] arr, int low, int high) {
+    private int partition(int[] arr, int low, int high) {
         int pivot = arr[high];
         int i = low - 1;
         for (int j = low; j < high; j++) {
@@ -129,34 +224,17 @@ public class SortingVisualizer {
         return i + 1;
     }
 
-    // Main function to demonstrate sorting algorithms
+    // Utility function to swap elements
+    private void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
     public static void main(String[] args) {
-        Random rand = new Random();
-        int[] arr = rand.ints(10, 0, 100).toArray(); // Random array of 10 elements between 0 and 100
-        int[] arrCopy;
-
-        System.out.println("Original Array: " + Arrays.toString(arr));
-
-        // Bubble Sort
-        arrCopy = Arrays.copyOf(arr, arr.length);
-        bubbleSort(arrCopy);
-
-        // Selection Sort
-        arrCopy = Arrays.copyOf(arr, arr.length);
-        selectionSort(arrCopy);
-
-        // Insertion Sort
-        arrCopy = Arrays.copyOf(arr, arr.length);
-        insertionSort(arrCopy);
-
-        // Merge Sort
-        arrCopy = Arrays.copyOf(arr, arr.length);
-        System.out.println("Merge Sort:");
-        mergeSort(arrCopy, 0, arrCopy.length - 1);
-
-        // Quick Sort
-        arrCopy = Arrays.copyOf(arr, arr.length);
-        System.out.println("Quick Sort:");
-        quickSort(arrCopy, 0, arrCopy.length - 1);
+        SwingUtilities.invokeLater(() -> {
+            SortingVisualizer visualizer = new SortingVisualizer();
+            visualizer.setVisible(true);
+        });
     }
 }
