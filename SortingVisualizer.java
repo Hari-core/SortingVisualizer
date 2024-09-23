@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.Random;
 
 public class SortingVisualizer extends JFrame {
@@ -10,7 +9,7 @@ public class SortingVisualizer extends JFrame {
     private int[] array;
     private JPanel panel;
     private JComboBox<String> algorithmSelector;
-    private JButton startButton;
+    private JButton startButton, resetButton;
 
     public SortingVisualizer() {
         // Set up the JFrame
@@ -30,7 +29,6 @@ public class SortingVisualizer extends JFrame {
                 drawArray(g);
             }
         };
-
         panel.setPreferredSize(new Dimension(800, 500));
         panel.setBackground(Color.white);
 
@@ -52,11 +50,22 @@ public class SortingVisualizer extends JFrame {
             }
         });
 
-        // Control panel for selecting sorting algorithm and starting the process
+        // Reset button to generate a new random array
+        resetButton = new JButton("Reset");
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                array = generateRandomArray(50); // Generate a new random array
+                panel.repaint(); // Refresh the panel to show the new array
+            }
+        });
+
+        // Control panel for selecting sorting algorithm, starting and resetting the process
         JPanel controlPanel = new JPanel();
         controlPanel.add(new JLabel("Select Algorithm:"));
         controlPanel.add(algorithmSelector);
         controlPanel.add(startButton);
+        controlPanel.add(resetButton);
 
         // Add control panel and sorting panel to the JFrame
         add(controlPanel, BorderLayout.NORTH);
