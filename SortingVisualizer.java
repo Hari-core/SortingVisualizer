@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 
 public class SortingVisualizer extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -10,6 +13,7 @@ public class SortingVisualizer extends JFrame {
     private JPanel panel;
     private JComboBox<String> algorithmSelector;
     private JButton startButton, resetButton;
+    private Clip clip;
 
     public SortingVisualizer() {
         // Set up the JFrame
@@ -30,7 +34,7 @@ public class SortingVisualizer extends JFrame {
             }
         };
         panel.setPreferredSize(new Dimension(800, 500));
-        panel.setBackground(Color.white);
+        panel.setBackground(Color.YELLOW); // Set background color to yellow
 
         // Sorting algorithms dropdown
         String[] algorithms = {"Bubble Sort", "Selection Sort", "Insertion Sort", "Merge Sort", "Quick Sort"};
@@ -44,7 +48,10 @@ public class SortingVisualizer extends JFrame {
                 new Thread(() -> {
                     String selectedAlgorithm = (String) algorithmSelector.getSelectedItem();
                     if (selectedAlgorithm != null) {
+                        // Play the music when sorting starts using the absolute path
+                        playMusic("C:/Users/gsree/OneDrive/Desktop/SortingVisualizer/your-music-file.wav.wav");
                         sortArray(selectedAlgorithm);
+                        stopMusic(); // Stop the music when sorting finishes
                     }
                 }).start();
             }
@@ -83,7 +90,7 @@ public class SortingVisualizer extends JFrame {
         int barWidth = panel.getWidth() / array.length;
         for (int i = 0; i < array.length; i++) {
             int height = array[i];
-            g.setColor(Color.blue);
+            g.setColor(Color.RED); // Set bar color to red
             g.fillRect(i * barWidth, panel.getHeight() - height, barWidth - 2, height);
         }
     }
@@ -238,6 +245,26 @@ public class SortingVisualizer extends JFrame {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
+    }
+
+    // Play music using Clip
+    private void playMusic(String filePath) {
+        try {
+            File musicFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Stop music
+    private void stopMusic() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
     }
 
     public static void main(String[] args) {
