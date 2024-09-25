@@ -14,12 +14,15 @@ A Java-based GUI application to visualize the execution of different sorting alg
 - **Reset Functionality**: Click a button to reset and generate a new random array for re-sorting.
 - **Sorting Algorithm Selection**: Dropdown menu to select the sorting algorithm.
 - **User-friendly GUI**: Simple and intuitive interface using Java Swing.
-
+- Background music that plays during sorting.
+- Colorful and interactive UI with a yellow background and red bars representing the array elements.
+- Random array generation for diverse sorting experiences.
+- Simple controls to start sorting and reset the array.
+  
 ## Expected Features
 
 - Smooth visualization of sorting algorithms.
 - Ability to switch between sorting algorithms easily.
-- A reset button to allow re-sorting on a fresh array without restarting the application.
 - Error handling for any unexpected behavior during sorting.
 
 ## Problems Faced
