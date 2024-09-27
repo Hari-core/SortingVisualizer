@@ -19,7 +19,8 @@ A Java-based GUI application to visualize the execution of different sorting alg
 - **Colorful UI**: Red bars represent the array elements, making it easy to track sorting progress.
 - **Random Array Generation**: For diverse sorting experiences.
 - **Simple Controls**: Easy-to-use controls to start sorting and reset the array.
-
+ 
+![Screenshot 2024-09-27 162526](https://github.com/user-attachments/assets/adff85b4-8366-4c65-8ab5-18d20baa07d1)
 ## Expected Features
 
 - Smooth visualization of sorting algorithms.
@@ -56,7 +57,6 @@ A Java-based GUI application to visualize the execution of different sorting alg
 2. **Visual Delays**:
    - The lack of frequent UI updates during sorting was addressed by forcing the GUI to repaint during key moments in the sorting process.
    - Solution: Called `repaint()` within each significant step of the sorting algorithm to ensure that the array visual was updated during the sort.
-
 ## Future Features
 
 - **Additional Sorting Algorithms**: Extend the program to support other algorithms such as Heap Sort, Radix Sort, and Shell Sort.
