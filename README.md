@@ -14,11 +14,12 @@ A Java-based GUI application to visualize the execution of different sorting alg
 - **Reset Functionality**: Click a button to reset and generate a new random array for re-sorting.
 - **Sorting Algorithm Selection**: Dropdown menu to select the sorting algorithm.
 - **User-friendly GUI**: Simple and intuitive interface using Java Swing.
-- Background music that plays during sorting.
-- Colorful and interactive UI with a yellow background and red bars representing the array elements.
-- Random array generation for diverse sorting experiences.
-- Simple controls to start sorting and reset the array.
-  
+- **Background Music**: Dragon Ball Z-themed background music plays during sorting for an engaging experience.
+- **Anime-Themed Background**: Dragon Ball Z-inspired yellow background with shiny stars to enhance the visual appeal.
+- **Colorful UI**: Red bars represent the array elements, making it easy to track sorting progress.
+- **Random Array Generation**: For diverse sorting experiences.
+- **Simple Controls**: Easy-to-use controls to start sorting and reset the array.
+
 ## Expected Features
 
 - Smooth visualization of sorting algorithms.
@@ -38,6 +39,7 @@ A Java-based GUI application to visualize the execution of different sorting alg
 - **Java**: Used for implementing the sorting logic and main application structure. Java's object-oriented nature allowed for efficient code reuse and modularity.
 - **Swing**: A part of Java's standard library, Swing provides a flexible and easy-to-use framework for building GUI applications. It was chosen because of its native support for event-driven programming and simple integration with Java logic.
 - **Multithreading**: Sorting algorithms were run on separate threads to prevent the UI from freezing and to ensure smooth real-time visualizations.
+- **Dragon Ball Z Theme**: Integrated themed background and music to make the sorting experience more enjoyable for anime fans.
 
 ### Why These Tools Were Chosen
 
@@ -62,4 +64,3 @@ A Java-based GUI application to visualize the execution of different sorting alg
 - **Detailed Algorithm Explanations**: Display a description of the algorithm’s logic and time complexity alongside the visualization.
 - **Algorithm Comparison**: Allow users to compare multiple algorithms side by side, showcasing their performance on the same array.
 - **Customization Options**: Allow users to adjust the size of the array and choose the initial order (random, sorted, reverse-sorted).
-
