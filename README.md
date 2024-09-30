@@ -63,4 +63,4 @@ A Java-based GUI application to visualize the execution of different sorting alg
 - **Speed Control**: Add a slider to allow users to adjust the speed of the sorting visualization.
 - **Detailed Algorithm Explanations**: Display a description of the algorithm’s logic and time complexity alongside the visualization.
 - **Algorithm Comparison**: Allow users to compare multiple algorithms side by side, showcasing their performance on the same array.
-- **Customization Options**: Allow users to adjust the size of the array and choose the initial order (random, sorted, reverse-sorted).
+- **Customization Options**: Allow users to adjust the size of the array and choose the initial order (random, sorted, reverse-sorted)..
